@@ -1,12 +1,13 @@
-function longestPalindromeSubseq(s) {
-  const n = s.length;
-  const dp = Array.from(Array(n), () => Array(n).fill(0));
-  for (let i = n - 1; i >= 0; i--) {
-    dp[i][i] = 1;
-    for (let j = i + 1; j < n; j++) {
-      if (s[i] === s[j]) dp[i][j] = dp[i + 1][j - 1] + 2;
-      else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+function maxSlidingWindow(nums, k) {
+  const result = [];
+  const queue = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
     }
+    queue.push(i);
+    if (queue[0] === i - k) queue.shift();
+    if (i >= k - 1) result.push(nums[queue[0]]);
   }
-  return dp[0][n - 1];
+  return result;
 }
